@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
 import { useChat } from '@/contexts/ChatContext';
 import { ChatSidebar } from '@/components/chat/ChatSidebar';
@@ -17,11 +17,11 @@ const Chat = () => {
   const [showTemplates, setShowTemplates] = useState(false);
   const isMobile = useIsMobile();
 
-  const sidebarVariants = {
+  const sidebarVariants: Variants = {
     open: { 
       x: 0,
       transition: { 
-        type: "spring", 
+        type: "spring" as const, 
         stiffness: 300, 
         damping: 30,
         duration: 0.3
@@ -30,7 +30,7 @@ const Chat = () => {
     closed: { 
       x: "-100%",
       transition: { 
-        type: "spring", 
+        type: "spring" as const, 
         stiffness: 300, 
         damping: 30,
         duration: 0.3
@@ -38,7 +38,7 @@ const Chat = () => {
     }
   };
 
-  const overlayVariants = {
+  const overlayVariants: Variants = {
     visible: { 
       opacity: 1,
       transition: { duration: 0.2 }
@@ -65,10 +65,10 @@ const Chat = () => {
                 ? 'fixed inset-y-0 left-0 z-50'
                 : sidebarOpen ? 'block' : 'hidden'
             }`}
-            variants={isMobile ? sidebarVariants : {}}
-            initial={isMobile ? "closed" : false}
-            animate={isMobile ? "open" : false}
-            exit={isMobile ? "closed" : false}
+            variants={isMobile ? sidebarVariants : undefined}
+            initial={isMobile ? "closed" : undefined}
+            animate={isMobile ? "open" : undefined}
+            exit={isMobile ? "closed" : undefined}
           >
             <ChatSidebar 
               isOpen={sidebarOpen} 
