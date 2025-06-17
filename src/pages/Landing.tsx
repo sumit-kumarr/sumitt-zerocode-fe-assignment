@@ -1,17 +1,15 @@
-
 import React from 'react';
 import { motion, useScroll, useTransform, Variants } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { MessageCircle, Zap, Shield, Sparkles, Mic, Download, FileText } from 'lucide-react';
+import { MessageCircle, Zap, Shield, Sparkles, Mic, Download, FileText, Moon, Sun } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useAuth } from '@/contexts/AuthContext';
-import { ThemeToggle } from '@/components/ThemeToggle';
 
 const Landing = () => {
-  const { theme } = useTheme();
+  const { theme, toggleTheme } = useTheme();
   const { user } = useAuth();
   const { scrollYProgress } = useScroll();
   const y = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
@@ -98,7 +96,25 @@ const Landing = () => {
           </motion.div>
           
           <div className="flex items-center space-x-4">
-            <ThemeToggle />
+            {/* Theme Toggle Button */}
+            <motion.div
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={toggleTheme}
+                className="text-white hover:bg-white/10 border border-white/20"
+              >
+                {theme === 'light' ? (
+                  <Moon className="h-5 w-5" />
+                ) : (
+                  <Sun className="h-5 w-5" />
+                )}
+              </Button>
+            </motion.div>
+            
             <motion.div
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
