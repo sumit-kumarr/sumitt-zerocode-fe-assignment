@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { motion, useScroll, useTransform, Variants } from 'framer-motion';
 import { Link } from 'react-router-dom';
@@ -16,32 +17,32 @@ const Landing = () => {
 
   const features = [
     {
-      icon: <MessageCircle className="h-8 w-8" />,
+      icon: <MessageCircle className="h-6 w-6 sm:h-8 sm:w-8" />,
       title: "Smart Conversations",
       description: "Powered by Google Gemini AI for intelligent, contextual responses"
     },
     {
-      icon: <Zap className="h-8 w-8" />,
+      icon: <Zap className="h-6 w-6 sm:h-8 sm:w-8" />,
       title: "Real-time Responses",
       description: "Lightning-fast AI responses with streaming capabilities"
     },
     {
-      icon: <Shield className="h-8 w-8" />,
+      icon: <Shield className="h-6 w-6 sm:h-8 sm:w-8" />,
       title: "Secure & Private",
       description: "Enterprise-grade security with Supabase authentication"
     },
     {
-      icon: <Mic className="h-8 w-8" />,
+      icon: <Mic className="h-6 w-6 sm:h-8 sm:w-8" />,
       title: "Voice Input",
       description: "Speak naturally with built-in speech recognition"
     },
     {
-      icon: <FileText className="h-8 w-8" />,
+      icon: <FileText className="h-6 w-6 sm:h-8 sm:w-8" />,
       title: "Prompt Templates",
       description: "Pre-built templates for common use cases"
     },
     {
-      icon: <Download className="h-8 w-8" />,
+      icon: <Download className="h-6 w-6 sm:h-8 sm:w-8" />,
       title: "Export Chats",
       description: "Download your conversation history anytime"
     }
@@ -80,7 +81,7 @@ const Landing = () => {
     >
       {/* Header */}
       <motion.header 
-        className="container mx-auto px-4 py-6"
+        className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6"
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5 }}
@@ -91,11 +92,11 @@ const Landing = () => {
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            <Sparkles className="h-8 w-8 text-white" />
-            <span className="text-2xl font-bold text-white">AetherBot</span>
+            <Sparkles className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
+            <span className="text-xl sm:text-2xl font-bold text-white">AetherBot</span>
           </motion.div>
           
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2 sm:space-x-4">
             {/* Theme Toggle Button */}
             <motion.div
               whileHover={{ scale: 1.1 }}
@@ -105,12 +106,12 @@ const Landing = () => {
                 variant="ghost"
                 size="icon"
                 onClick={toggleTheme}
-                className="text-white hover:bg-white/10 border border-white/20"
+                className="text-white hover:bg-white/10 border border-white/20 h-8 w-8 sm:h-10 sm:w-10"
               >
                 {theme === 'light' ? (
-                  <Moon className="h-5 w-5" />
+                  <Moon className="h-4 w-4 sm:h-5 sm:w-5" />
                 ) : (
-                  <Sun className="h-5 w-5" />
+                  <Sun className="h-4 w-4 sm:h-5 sm:w-5" />
                 )}
               </Button>
             </motion.div>
@@ -121,11 +122,15 @@ const Landing = () => {
             >
               {user ? (
                 <Link to="/chat">
-                  <Button variant="secondary">Go to Chat</Button>
+                  <Button variant="secondary" size="sm" className="text-sm sm:text-base px-3 sm:px-4">
+                    Go to Chat
+                  </Button>
                 </Link>
               ) : (
                 <Link to="/auth">
-                  <Button variant="secondary">Get Started</Button>
+                  <Button variant="secondary" size="sm" className="text-sm sm:text-base px-3 sm:px-4">
+                    Get Started
+                  </Button>
                 </Link>
               )}
             </motion.div>
@@ -134,7 +139,7 @@ const Landing = () => {
       </motion.header>
 
       {/* Hero Section */}
-      <section className="container mx-auto px-4 py-20 text-center">
+      <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20 text-center">
         <motion.div
           style={{ y }}
           variants={containerVariants}
@@ -142,13 +147,13 @@ const Landing = () => {
           animate="visible"
         >
           <motion.div variants={itemVariants}>
-            <Badge variant="secondary" className="mb-4">
+            <Badge variant="secondary" className="mb-3 sm:mb-4 text-xs sm:text-sm">
               Powered by Google Gemini AI
             </Badge>
           </motion.div>
           
           <motion.h1 
-            className="text-6xl font-bold text-white mb-6 leading-tight"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 leading-tight px-2"
             variants={itemVariants}
           >
             Your Intelligent
@@ -169,7 +174,7 @@ const Landing = () => {
           </motion.h1>
           
           <motion.p 
-            className="text-xl text-white/80 mb-8 max-w-2xl mx-auto"
+            className="text-base sm:text-lg lg:text-xl text-white/80 mb-6 sm:mb-8 max-w-xl lg:max-w-2xl mx-auto px-4"
             variants={itemVariants}
           >
             Experience the future of conversation with our advanced AI chatbot. 
@@ -177,7 +182,7 @@ const Landing = () => {
           </motion.p>
           
           <motion.div 
-            className="flex flex-col sm:flex-row gap-4 justify-center"
+            className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4"
             variants={itemVariants}
           >
             <motion.div
@@ -186,16 +191,16 @@ const Landing = () => {
             >
               {user ? (
                 <Link to="/chat">
-                  <Button size="lg" className="bg-white text-purple-600 hover:bg-gray-100">
+                  <Button size="lg" className="bg-white text-purple-600 hover:bg-gray-100 w-full sm:w-auto">
                     Start Chatting
-                    <MessageCircle className="ml-2 h-5 w-5" />
+                    <MessageCircle className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
                   </Button>
                 </Link>
               ) : (
                 <Link to="/auth">
-                  <Button size="lg" className="bg-white text-purple-600 hover:bg-gray-100">
+                  <Button size="lg" className="bg-white text-purple-600 hover:bg-gray-100 w-full sm:w-auto">
                     Get Started Free
-                    <Sparkles className="ml-2 h-5 w-5" />
+                    <Sparkles className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
                   </Button>
                 </Link>
               )}
@@ -204,7 +209,7 @@ const Landing = () => {
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
             >
-              <Button variant="outline" size="lg" className="border-white/20 text-white hover:bg-white/10">
+              <Button variant="outline" size="lg" className="border-white/20 text-white hover:bg-white/10 w-full sm:w-auto">
                 Learn More
               </Button>
             </motion.div>
@@ -213,24 +218,24 @@ const Landing = () => {
       </section>
 
       {/* Features Section */}
-      <section className="container mx-auto px-4 py-20">
+      <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
         <motion.div
-          className="text-center mb-16"
+          className="text-center mb-12 sm:mb-16"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-4xl font-bold text-white mb-4">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-3 sm:mb-4">
             Powerful Features
           </h2>
-          <p className="text-white/80 text-lg max-w-2xl mx-auto">
+          <p className="text-white/80 text-base sm:text-lg max-w-xl lg:max-w-2xl mx-auto">
             Everything you need for seamless AI conversations
           </p>
         </motion.div>
 
         <motion.div 
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -247,7 +252,7 @@ const Landing = () => {
               }}
             >
               <Card className="bg-white/10 backdrop-blur-lg border-white/20 text-white hover:bg-white/20 transition-all duration-300 h-full">
-                <CardHeader>
+                <CardHeader className="pb-3">
                   <motion.div 
                     className="text-purple-300 mb-2"
                     whileHover={{ rotate: 360 }}
@@ -255,10 +260,10 @@ const Landing = () => {
                   >
                     {feature.icon}
                   </motion.div>
-                  <CardTitle className="text-white">{feature.title}</CardTitle>
+                  <CardTitle className="text-white text-base sm:text-lg">{feature.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <CardDescription className="text-white/80">
+                  <CardDescription className="text-white/80 text-sm sm:text-base">
                     {feature.description}
                   </CardDescription>
                 </CardContent>
@@ -269,19 +274,19 @@ const Landing = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="container mx-auto px-4 py-20 text-center">
+      <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20 text-center">
         <motion.div
-          className="bg-white/10 backdrop-blur-lg rounded-2xl p-12 border border-white/20"
+          className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 sm:p-8 lg:p-12 border border-white/20 max-w-4xl mx-auto"
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, type: "spring", stiffness: 200 }}
           viewport={{ once: true }}
           whileHover={{ scale: 1.02 }}
         >
-          <h2 className="text-4xl font-bold text-white mb-4">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-3 sm:mb-4">
             Ready to Start?
           </h2>
-          <p className="text-white/80 text-lg mb-8 max-w-xl mx-auto">
+          <p className="text-white/80 text-base sm:text-lg mb-6 sm:mb-8 max-w-xl mx-auto">
             Join thousands of users already experiencing the power of AI conversation.
           </p>
           {!user && (
@@ -292,7 +297,7 @@ const Landing = () => {
               <Link to="/auth">
                 <Button size="lg" className="bg-white text-purple-600 hover:bg-gray-100">
                   Create Free Account
-                  <Sparkles className="ml-2 h-5 w-5" />
+                  <Sparkles className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
                 </Button>
               </Link>
             </motion.div>
@@ -302,14 +307,14 @@ const Landing = () => {
 
       {/* Footer */}
       <motion.footer 
-        className="container mx-auto px-4 py-8 text-center"
+        className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 text-center"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
         viewport={{ once: true }}
       >
-        <div className="border-t border-white/20 pt-8">
-          <p className="text-white/60">
+        <div className="border-t border-white/20 pt-6 sm:pt-8">
+          <p className="text-white/60 text-sm sm:text-base">
             © 2024 AetherBot. Built with ❤️ using React, Supabase, and Gemini AI.
           </p>
         </div>

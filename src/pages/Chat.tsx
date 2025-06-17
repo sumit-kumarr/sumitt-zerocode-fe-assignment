@@ -1,5 +1,4 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
 import { useChat } from '@/contexts/ChatContext';
@@ -16,6 +15,15 @@ const Chat = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showTemplates, setShowTemplates] = useState(false);
   const isMobile = useIsMobile();
+
+  // Auto-open sidebar on desktop, keep closed on mobile
+  useEffect(() => {
+    if (!isMobile) {
+      setSidebarOpen(true);
+    } else {
+      setSidebarOpen(false);
+    }
+  }, [isMobile]);
 
   const sidebarVariants: Variants = {
     open: { 
@@ -56,19 +64,31 @@ const Chat = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      {/* Sidebar */}
+      {/* Sidebar for Desktop */}
+      {!isMobile && sidebarOpen && (
+        <motion.div
+          className="hidden md:block"
+          initial={{ x: -300, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          exit={{ x: -300, opacity: 0 }}
+          transition={{ type: "spring", stiffness: 300, damping: 30 }}
+        >
+          <ChatSidebar 
+            isOpen={sidebarOpen} 
+            onToggle={() => setSidebarOpen(!sidebarOpen)} 
+          />
+        </motion.div>
+      )}
+
+      {/* Sidebar for Mobile */}
       <AnimatePresence>
-        {(sidebarOpen || !isMobile) && (
+        {isMobile && sidebarOpen && (
           <motion.div
-            className={`${
-              isMobile 
-                ? 'fixed inset-y-0 left-0 z-50'
-                : sidebarOpen ? 'block' : 'hidden'
-            }`}
-            variants={isMobile ? sidebarVariants : undefined}
-            initial={isMobile ? "closed" : undefined}
-            animate={isMobile ? "open" : undefined}
-            exit={isMobile ? "closed" : undefined}
+            className="fixed inset-y-0 left-0 z-50 md:hidden"
+            variants={sidebarVariants}
+            initial="closed"
+            animate="open"
+            exit="closed"
           >
             <ChatSidebar 
               isOpen={sidebarOpen} 
@@ -82,7 +102,7 @@ const Chat = () => {
       <AnimatePresence>
         {isMobile && sidebarOpen && (
           <motion.div 
-            className="fixed inset-0 bg-black/50 z-40"
+            className="fixed inset-0 bg-black/50 z-40 md:hidden"
             variants={overlayVariants}
             initial="hidden"
             animate="visible"
@@ -94,7 +114,9 @@ const Chat = () => {
 
       {/* Main Chat Area */}
       <motion.div 
-        className="flex-1 flex flex-col min-w-0"
+        className={`flex-1 flex flex-col min-w-0 ${
+          !isMobile && sidebarOpen ? 'ml-0' : ''
+        }`}
         layout
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
       >
@@ -118,7 +140,7 @@ const Chat = () => {
           transition={{ duration: 0.5, delay: 0.2 }}
         >
           {messages.length === 0 ? (
-            <div className="flex-1 flex items-center justify-center p-4 sm:p-8">
+            <div className="flex-1 flex items-center justify-center p-4 sm:p-6 lg:p-8">
               <motion.div
                 initial={{ opacity: 0, y: 30, scale: 0.9 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -128,10 +150,10 @@ const Chat = () => {
                   type: "spring",
                   stiffness: 200
                 }}
-                className="text-center max-w-md mx-auto"
+                className="text-center max-w-sm sm:max-w-md mx-auto px-4"
               >
                 <motion.h2 
-                  className="text-xl sm:text-2xl font-bold mb-4"
+                  className="text-lg sm:text-xl lg:text-2xl font-bold mb-3 sm:mb-4"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.6, delay: 0.5 }}
@@ -139,7 +161,7 @@ const Chat = () => {
                   Welcome to AetherBot, {user?.user_metadata?.full_name || 'there'}!
                 </motion.h2>
                 <motion.p 
-                  className="text-muted-foreground mb-6 text-sm sm:text-base"
+                  className="text-muted-foreground mb-4 sm:mb-6 text-sm sm:text-base"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.6, delay: 0.7 }}

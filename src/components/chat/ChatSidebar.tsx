@@ -6,7 +6,6 @@ import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/contexts/AuthContext';
 import { useChat } from '@/contexts/ChatContext';
 import { useTheme } from '@/contexts/ThemeContext';
-import { ThemeToggle } from '@/components/ThemeToggle';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { 
   User, 
@@ -30,32 +29,31 @@ export const ChatSidebar: React.FC<ChatSidebarProps> = ({ isOpen, onToggle }) =>
   const isMobile = useIsMobile();
 
   return (
-    <div className={`${isMobile ? 'w-80' : 'w-72 lg:w-80'} bg-card border-r border-border flex flex-col h-full`}>
+    <div className={`${
+      isMobile ? 'w-72 sm:w-80' : 'w-64 lg:w-72 xl:w-80'
+    } bg-card border-r border-border flex flex-col h-full`}>
       {/* Header */}
-      <div className="p-4 border-b border-border">
-        <div className="flex items-center justify-between mb-4">
+      <div className="p-3 sm:p-4 border-b border-border">
+        <div className="flex items-center justify-between mb-3 sm:mb-4">
           <div className="flex items-center space-x-2">
             <Sparkles className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
             <span className="text-base sm:text-lg font-bold">AetherBot</span>
           </div>
-          <div className="flex items-center space-x-2">
-            <ThemeToggle />
-            {isMobile && (
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={onToggle}
-                className="h-8 w-8"
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            )}
-          </div>
+          {isMobile && (
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onToggle}
+              className="h-8 w-8"
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          )}
         </div>
         
         {/* User Info */}
-        <div className="flex items-center space-x-3 p-3 rounded-lg bg-muted">
-          <div className="p-2 rounded-full bg-primary">
+        <div className="flex items-center space-x-3 p-2 sm:p-3 rounded-lg bg-muted">
+          <div className="p-1.5 sm:p-2 rounded-full bg-primary">
             <User className="h-3 w-3 sm:h-4 sm:w-4 text-primary-foreground" />
           </div>
           <div className="flex-1 min-w-0">
@@ -70,14 +68,14 @@ export const ChatSidebar: React.FC<ChatSidebarProps> = ({ isOpen, onToggle }) =>
       </div>
 
       {/* Chat Stats */}
-      <div className="p-4 border-b border-border">
-        <div className="grid grid-cols-2 gap-4">
+      <div className="p-3 sm:p-4 border-b border-border">
+        <div className="grid grid-cols-2 gap-3 sm:gap-4">
           <div className="text-center">
-            <p className="text-xl sm:text-2xl font-bold text-primary">{messages.length}</p>
+            <p className="text-lg sm:text-xl lg:text-2xl font-bold text-primary">{messages.length}</p>
             <p className="text-xs text-muted-foreground">Messages</p>
           </div>
           <div className="text-center">
-            <p className="text-xl sm:text-2xl font-bold text-primary">
+            <p className="text-lg sm:text-xl lg:text-2xl font-bold text-primary">
               {messages.filter(m => m.role === 'assistant').length}
             </p>
             <p className="text-xs text-muted-foreground">AI Responses</p>
@@ -86,15 +84,15 @@ export const ChatSidebar: React.FC<ChatSidebarProps> = ({ isOpen, onToggle }) =>
       </div>
 
       {/* Quick Actions */}
-      <div className="p-4 space-y-2">
-        <h3 className="text-xs sm:text-sm font-medium text-muted-foreground mb-3">Quick Actions</h3>
+      <div className="p-3 sm:p-4 space-y-2">
+        <h3 className="text-xs sm:text-sm font-medium text-muted-foreground mb-2 sm:mb-3">Quick Actions</h3>
         
         <Button
           variant="outline"
           size="sm"
           onClick={exportChat}
           disabled={messages.length === 0}
-          className="w-full justify-start text-xs sm:text-sm"
+          className="w-full justify-start text-xs sm:text-sm h-8 sm:h-9"
         >
           <Download className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
           Export Chat
@@ -105,19 +103,19 @@ export const ChatSidebar: React.FC<ChatSidebarProps> = ({ isOpen, onToggle }) =>
           size="sm"
           onClick={clearChat}
           disabled={messages.length === 0}
-          className="w-full justify-start text-destructive hover:text-destructive text-xs sm:text-sm"
+          className="w-full justify-start text-destructive hover:text-destructive text-xs sm:text-sm h-8 sm:h-9"
         >
           <Trash2 className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
           Clear Chat
         </Button>
       </div>
 
-      {/* Recent Chats Placeholder */}
-      <div className="flex-1 p-4 overflow-y-auto">
-        <h3 className="text-xs sm:text-sm font-medium text-muted-foreground mb-3">Recent Chats</h3>
+      {/* Recent Chats */}
+      <div className="flex-1 p-3 sm:p-4 overflow-y-auto">
+        <h3 className="text-xs sm:text-sm font-medium text-muted-foreground mb-2 sm:mb-3">Recent Chats</h3>
         <div className="space-y-2">
           {messages.length > 0 ? (
-            <div className="p-3 rounded-lg bg-muted/50 border border-border">
+            <div className="p-2 sm:p-3 rounded-lg bg-muted/50 border border-border">
               <div className="flex items-center space-x-2 mb-1">
                 <MessageCircle className="h-3 w-3 sm:h-4 sm:w-4 text-primary" />
                 <span className="text-xs sm:text-sm font-medium">Current Session</span>
@@ -128,7 +126,7 @@ export const ChatSidebar: React.FC<ChatSidebarProps> = ({ isOpen, onToggle }) =>
               </p>
             </div>
           ) : (
-            <p className="text-xs sm:text-sm text-muted-foreground text-center py-8">
+            <p className="text-xs sm:text-sm text-muted-foreground text-center py-6 sm:py-8">
               No chats yet. Start a conversation!
             </p>
           )}
@@ -136,12 +134,12 @@ export const ChatSidebar: React.FC<ChatSidebarProps> = ({ isOpen, onToggle }) =>
       </div>
 
       {/* Footer */}
-      <div className="p-4 border-t border-border">
+      <div className="p-3 sm:p-4 border-t border-border">
         <Button
           variant="ghost"
           size="sm"
           onClick={signOut}
-          className="w-full justify-start text-destructive hover:text-destructive text-xs sm:text-sm"
+          className="w-full justify-start text-destructive hover:text-destructive text-xs sm:text-sm h-8 sm:h-9"
         >
           <LogOut className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
           Sign Out

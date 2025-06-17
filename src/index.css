@@ -101,6 +101,13 @@
   html {
     scroll-behavior: smooth;
   }
+  
+  /* Custom responsive breakpoint for xs screens */
+  @media (min-width: 475px) {
+    .xs\:flex {
+      display: flex;
+    }
+  }
 }
 
 @layer utilities {
@@ -209,6 +216,25 @@
       transform: scale(1);
     }
   }
+
+  /* Responsive text sizing */
+  @media (max-width: 640px) {
+    .prose {
+      font-size: 0.875rem;
+    }
+    
+    .prose code {
+      font-size: 0.75rem;
+    }
+  }
+
+  /* Better mobile spacing */
+  @media (max-width: 475px) {
+    .container {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
 }
 
 /* Enhanced contrast for better accessibility */
@@ -218,17 +244,6 @@
 
 .dark .bg-muted {
   background-color: hsl(var(--muted));
-}
-
-/* Better mobile text sizing */
-@media (max-width: 640px) {
-  .prose {
-    font-size: 0.875rem;
-  }
-  
-  .prose code {
-    font-size: 0.75rem;
-  }
 }
 
 /* Button and interactive element enhancements */
@@ -253,5 +268,20 @@ textarea:focus-visible {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* Enhanced responsive utilities */
+@media (min-width: 475px) {
+  .xs\:block {
+    display: block;
+  }
+  
+  .xs\:inline {
+    display: inline;
+  }
+  
+  .xs\:hidden {
+    display: none;
   }
 }
