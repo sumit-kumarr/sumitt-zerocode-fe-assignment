@@ -1,6 +1,6 @@
 
 import React, { createContext, useContext, useState, useCallback } from 'react';
-import { sendMessage as sendGeminiMessage, initializeGemini } from '@/lib/gemini';
+import { sendMessage as sendGeminiMessage } from '@/lib/gemini';
 import { useToast } from '@/hooks/use-toast';
 
 export interface ChatMessage {
@@ -13,8 +13,6 @@ export interface ChatMessage {
 interface ChatContextType {
   messages: ChatMessage[];
   isLoading: boolean;
-  apiKey: string;
-  setApiKey: (key: string) => void;
   sendMessage: (content: string) => Promise<void>;
   clearChat: () => void;
   exportChat: () => void;
@@ -33,7 +31,6 @@ export const useChat = () => {
 export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [apiKey, setApiKey] = useState('');
   const { toast } = useToast();
 
   const sendMessage = useCallback(async (content: string) => {
@@ -108,26 +105,10 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
     });
   }, [messages, toast]);
 
-  // Handle API key changes
-  const handleSetApiKey = useCallback((key: string) => {
-    setApiKey(key);
-    if (key) {
-      const initialized = initializeGemini(key);
-      if (initialized) {
-        toast({
-          title: "API Key Set",
-          description: "Gemini AI is now ready to use!",
-        });
-      }
-    }
-  }, [toast]);
-
   return (
     <ChatContext.Provider value={{
       messages,
       isLoading,
-      apiKey,
-      setApiKey: handleSetApiKey,
       sendMessage,
       clearChat,
       exportChat,

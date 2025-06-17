@@ -1,25 +1,23 @@
 
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
-const API_KEY = import.meta.env.VITE_GEMINI_API_KEY || '';
+// Direct API key - no user input needed
+const API_KEY = 'AIzaSyDC_T756pM450zJ4OaqhYimqfwlJivdtgw';
 
-let genAI: GoogleGenerativeAI | null = null;
+let genAI: GoogleGenerativeAI;
 
-export const initializeGemini = (apiKey?: string) => {
-  const key = apiKey || API_KEY;
-  if (key) {
-    genAI = new GoogleGenerativeAI(key);
-  }
-  return !!genAI;
+// Initialize immediately with the API key
+const initializeGemini = () => {
+  genAI = new GoogleGenerativeAI(API_KEY);
+  return true;
 };
 
 export const sendMessage = async (message: string, history: Array<{role: string, parts: string}> = []) => {
   if (!genAI) {
-    throw new Error('Gemini AI not initialized. Please provide an API key.');
+    initializeGemini();
   }
 
   try {
-    // Use the correct model name - gemini-1.5-flash instead of deprecated gemini-pro
     const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
     
     const chat = model.startChat({
@@ -38,7 +36,5 @@ export const sendMessage = async (message: string, history: Array<{role: string,
   }
 };
 
-// Initialize with environment variable if available
-if (API_KEY) {
-  initializeGemini();
-}
+// Initialize immediately
+initializeGemini();

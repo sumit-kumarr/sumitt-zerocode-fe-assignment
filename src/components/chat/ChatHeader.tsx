@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useChat } from '@/contexts/ChatContext';
@@ -24,29 +25,58 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
   const isMobile = useIsMobile();
 
   return (
-    <header className="h-14 sm:h-16 border-b border-border bg-card flex items-center justify-between px-3 sm:px-4">
+    <motion.header 
+      className="h-14 sm:h-16 border-b border-border bg-card flex items-center justify-between px-3 sm:px-4"
+      initial={{ y: -20, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.3 }}
+    >
       <div className="flex items-center space-x-2 sm:space-x-4">
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={onToggleSidebar}
-          className="h-8 w-8 sm:h-10 sm:w-10"
+        <motion.div
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
         >
-          <Menu className="h-4 w-4 sm:h-5 sm:w-5" />
-        </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onToggleSidebar}
+            className="h-8 w-8 sm:h-10 sm:w-10"
+          >
+            <Menu className="h-4 w-4 sm:h-5 sm:w-5" />
+          </Button>
+        </motion.div>
         
         <div className="flex items-center space-x-2 sm:space-x-3">
-          <div className="p-1.5 sm:p-2 rounded-full bg-primary">
+          <motion.div 
+            className="p-1.5 sm:p-2 rounded-full bg-primary"
+            animate={{ 
+              boxShadow: isLoading 
+                ? '0 0 20px rgba(147, 51, 234, 0.5)' 
+                : '0 0 0px rgba(147, 51, 234, 0)' 
+            }}
+            transition={{ duration: 0.3 }}
+          >
             <Bot className="h-4 w-4 sm:h-5 sm:w-5 text-primary-foreground" />
-          </div>
+          </motion.div>
           <div>
             <h1 className="text-base sm:text-lg font-semibold">AetherBot</h1>
             <div className="flex items-center space-x-1 sm:space-x-2">
-              <Circle 
-                className={`h-1.5 w-1.5 sm:h-2 sm:w-2 fill-current ${
-                  isLoading ? 'text-yellow-500' : 'text-green-500'
-                }`} 
-              />
+              <motion.div
+                animate={{ 
+                  scale: isLoading ? [1, 1.2, 1] : 1,
+                  opacity: isLoading ? [1, 0.7, 1] : 1
+                }}
+                transition={{ 
+                  duration: 1.5, 
+                  repeat: isLoading ? Infinity : 0 
+                }}
+              >
+                <Circle 
+                  className={`h-1.5 w-1.5 sm:h-2 sm:w-2 fill-current ${
+                    isLoading ? 'text-yellow-500' : 'text-green-500'
+                  }`} 
+                />
+              </motion.div>
               <span className="text-xs text-muted-foreground">
                 {isLoading ? 'Thinking...' : 'Online'}
               </span>
@@ -61,16 +91,21 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
             Powered by Gemini AI
           </Badge>
         )}
-        <Button
-          variant="outline"
-          size={isMobile ? "sm" : "sm"}
-          onClick={onShowTemplates}
-          className="text-xs sm:text-sm"
+        <motion.div
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
         >
-          <FileText className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-          {isMobile ? '' : 'Templates'}
-        </Button>
+          <Button
+            variant="outline"
+            size={isMobile ? "sm" : "sm"}
+            onClick={onShowTemplates}
+            className="text-xs sm:text-sm"
+          >
+            <FileText className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+            {isMobile ? '' : 'Templates'}
+          </Button>
+        </motion.div>
       </div>
-    </header>
+    </motion.header>
   );
 };

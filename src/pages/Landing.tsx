@@ -1,5 +1,6 @@
+
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -12,6 +13,8 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 const Landing = () => {
   const { theme } = useTheme();
   const { user } = useAuth();
+  const { scrollYProgress } = useScroll();
+  const y = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
 
   const features = [
     {
@@ -46,15 +49,49 @@ const Landing = () => {
     }
   ];
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 24
+      }
+    }
+  };
+
   return (
-    <div className={`min-h-screen ${theme === 'dark' ? 'gradient-bg-dark' : 'gradient-bg'}`}>
+    <motion.div 
+      className={`min-h-screen ${theme === 'dark' ? 'gradient-bg-dark' : 'gradient-bg'}`}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.6 }}
+    >
       {/* Header */}
-      <header className="container mx-auto px-4 py-6">
+      <motion.header 
+        className="container mx-auto px-4 py-6"
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
         <nav className="flex items-center justify-between">
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
             className="flex items-center space-x-2"
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: "spring", stiffness: 300 }}
           >
             <Sparkles className="h-8 w-8 text-white" />
             <span className="text-2xl font-bold text-white">AetherBot</span>
@@ -62,71 +99,111 @@ const Landing = () => {
           
           <div className="flex items-center space-x-4">
             <ThemeToggle />
-            {user ? (
-              <Link to="/chat">
-                <Button variant="secondary">Go to Chat</Button>
-              </Link>
-            ) : (
-              <Link to="/auth">
-                <Button variant="secondary">Get Started</Button>
-              </Link>
-            )}
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              {user ? (
+                <Link to="/chat">
+                  <Button variant="secondary">Go to Chat</Button>
+                </Link>
+              ) : (
+                <Link to="/auth">
+                  <Button variant="secondary">Get Started</Button>
+                </Link>
+              )}
+            </motion.div>
           </div>
         </nav>
-      </header>
+      </motion.header>
 
       {/* Hero Section */}
       <section className="container mx-auto px-4 py-20 text-center">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          style={{ y }}
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
         >
-          <Badge variant="secondary" className="mb-4">
-            Powered by Google Gemini AI
-          </Badge>
-          <h1 className="text-6xl font-bold text-white mb-6 leading-tight">
+          <motion.div variants={itemVariants}>
+            <Badge variant="secondary" className="mb-4">
+              Powered by Google Gemini AI
+            </Badge>
+          </motion.div>
+          
+          <motion.h1 
+            className="text-6xl font-bold text-white mb-6 leading-tight"
+            variants={itemVariants}
+          >
             Your Intelligent
             <br />
-            <span className="bg-gradient-to-r from-pink-300 to-purple-300 bg-clip-text text-transparent">
+            <motion.span 
+              className="bg-gradient-to-r from-pink-300 to-purple-300 bg-clip-text text-transparent"
+              animate={{ 
+                backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'] 
+              }}
+              transition={{ 
+                duration: 3, 
+                repeat: Infinity, 
+                ease: "linear" 
+              }}
+            >
               AI Assistant
-            </span>
-          </h1>
-          <p className="text-xl text-white/80 mb-8 max-w-2xl mx-auto">
+            </motion.span>
+          </motion.h1>
+          
+          <motion.p 
+            className="text-xl text-white/80 mb-8 max-w-2xl mx-auto"
+            variants={itemVariants}
+          >
             Experience the future of conversation with our advanced AI chatbot. 
             Get instant, intelligent responses to any question or task.
-          </p>
+          </motion.p>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            {user ? (
-              <Link to="/chat">
-                <Button size="lg" className="bg-white text-purple-600 hover:bg-gray-100">
-                  Start Chatting
-                  <MessageCircle className="ml-2 h-5 w-5" />
-                </Button>
-              </Link>
-            ) : (
-              <Link to="/auth">
-                <Button size="lg" className="bg-white text-purple-600 hover:bg-gray-100">
-                  Get Started Free
-                  <Sparkles className="ml-2 h-5 w-5" />
-                </Button>
-              </Link>
-            )}
-            <Button variant="outline" size="lg" className="border-white/20 text-white hover:bg-white/10">
-              Learn More
-            </Button>
-          </div>
+          <motion.div 
+            className="flex flex-col sm:flex-row gap-4 justify-center"
+            variants={itemVariants}
+          >
+            <motion.div
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              {user ? (
+                <Link to="/chat">
+                  <Button size="lg" className="bg-white text-purple-600 hover:bg-gray-100">
+                    Start Chatting
+                    <MessageCircle className="ml-2 h-5 w-5" />
+                  </Button>
+                </Link>
+              ) : (
+                <Link to="/auth">
+                  <Button size="lg" className="bg-white text-purple-600 hover:bg-gray-100">
+                    Get Started Free
+                    <Sparkles className="ml-2 h-5 w-5" />
+                  </Button>
+                </Link>
+              )}
+            </motion.div>
+            <motion.div
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Button variant="outline" size="lg" className="border-white/20 text-white hover:bg-white/10">
+                Learn More
+              </Button>
+            </motion.div>
+          </motion.div>
         </motion.div>
       </section>
 
       {/* Features Section */}
       <section className="container mx-auto px-4 py-20">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
           className="text-center mb-16"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
         >
           <h2 className="text-4xl font-bold text-white mb-4">
             Powerful Features
@@ -136,19 +213,32 @@ const Landing = () => {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <motion.div 
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
           {features.map((feature, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 * index }}
+              variants={itemVariants}
+              whileHover={{ 
+                scale: 1.05, 
+                y: -5,
+                transition: { type: "spring", stiffness: 300 }
+              }}
             >
-              <Card className="bg-white/10 backdrop-blur-lg border-white/20 text-white hover:bg-white/20 transition-all duration-300">
+              <Card className="bg-white/10 backdrop-blur-lg border-white/20 text-white hover:bg-white/20 transition-all duration-300 h-full">
                 <CardHeader>
-                  <div className="text-purple-300 mb-2">
+                  <motion.div 
+                    className="text-purple-300 mb-2"
+                    whileHover={{ rotate: 360 }}
+                    transition={{ duration: 0.5 }}
+                  >
                     {feature.icon}
-                  </div>
+                  </motion.div>
                   <CardTitle className="text-white">{feature.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -159,16 +249,18 @@ const Landing = () => {
               </Card>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </section>
 
       {/* CTA Section */}
       <section className="container mx-auto px-4 py-20 text-center">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
           className="bg-white/10 backdrop-blur-lg rounded-2xl p-12 border border-white/20"
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6, type: "spring", stiffness: 200 }}
+          viewport={{ once: true }}
+          whileHover={{ scale: 1.02 }}
         >
           <h2 className="text-4xl font-bold text-white mb-4">
             Ready to Start?
@@ -177,25 +269,36 @@ const Landing = () => {
             Join thousands of users already experiencing the power of AI conversation.
           </p>
           {!user && (
-            <Link to="/auth">
-              <Button size="lg" className="bg-white text-purple-600 hover:bg-gray-100">
-                Create Free Account
-                <Sparkles className="ml-2 h-5 w-5" />
-              </Button>
-            </Link>
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Link to="/auth">
+                <Button size="lg" className="bg-white text-purple-600 hover:bg-gray-100">
+                  Create Free Account
+                  <Sparkles className="ml-2 h-5 w-5" />
+                </Button>
+              </Link>
+            </motion.div>
           )}
         </motion.div>
       </section>
 
       {/* Footer */}
-      <footer className="container mx-auto px-4 py-8 text-center">
+      <motion.footer 
+        className="container mx-auto px-4 py-8 text-center"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        viewport={{ once: true }}
+      >
         <div className="border-t border-white/20 pt-8">
           <p className="text-white/60">
             © 2024 AetherBot. Built with ❤️ using React, Supabase, and Gemini AI.
           </p>
         </div>
-      </footer>
-    </div>
+      </motion.footer>
+    </motion.div>
   );
 };
 
