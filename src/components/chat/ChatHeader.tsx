@@ -2,7 +2,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { useChat } from '@/contexts/ChatChat';
+import { useChat } from '@/contexts/ChatContext';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { 
   Menu, 
