@@ -125,4 +125,31 @@
       opacity: 1;
     }
   }
+
+  /* Mobile responsive utilities */
+  @media (max-width: 768px) {
+    .mobile-sidebar-overlay {
+      backdrop-filter: blur(4px);
+    }
+  }
+}
+
+/* Enhanced contrast for better accessibility */
+.dark .chat-bubble-user {
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+}
+
+.dark .bg-muted {
+  background-color: hsl(var(--muted));
+}
+
+/* Better mobile text sizing */
+@media (max-width: 640px) {
+  .prose {
+    font-size: 0.875rem;
+  }
+  
+  .prose code {
+    font-size: 0.75rem;
+  }
 }

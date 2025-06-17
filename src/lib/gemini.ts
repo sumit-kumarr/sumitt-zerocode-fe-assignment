@@ -19,7 +19,8 @@ export const sendMessage = async (message: string, history: Array<{role: string,
   }
 
   try {
-    const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+    // Use the correct model name - gemini-1.5-flash instead of deprecated gemini-pro
+    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
     
     const chat = model.startChat({
       history: history.map(msg => ({

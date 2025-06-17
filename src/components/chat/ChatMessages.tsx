@@ -25,19 +25,19 @@ export const ChatMessages = () => {
   };
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 space-y-6">
+    <div className="flex-1 overflow-y-auto p-2 sm:p-4 space-y-4 sm:space-y-6">
       {messages.map((message, index) => (
         <motion.div
           key={message.id}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3, delay: index * 0.1 }}
-          className={`flex gap-4 ${
+          className={`flex gap-2 sm:gap-4 ${
             message.role === 'user' ? 'flex-row-reverse' : 'flex-row'
           }`}
         >
           {/* Avatar */}
-          <Avatar className="w-10 h-10">
+          <Avatar className="w-8 h-8 sm:w-10 sm:h-10 flex-shrink-0">
             <AvatarFallback 
               className={
                 message.role === 'user' 
@@ -46,19 +46,19 @@ export const ChatMessages = () => {
               }
             >
               {message.role === 'user' ? (
-                <User className="w-5 h-5" />
+                <User className="w-4 h-4 sm:w-5 sm:h-5" />
               ) : (
-                <Bot className="w-5 h-5" />
+                <Bot className="w-4 h-4 sm:w-5 sm:h-5" />
               )}
             </AvatarFallback>
           </Avatar>
 
           {/* Message Content */}
-          <div className={`flex-1 max-w-3xl ${
+          <div className={`flex-1 max-w-[85%] sm:max-w-3xl ${
             message.role === 'user' ? 'text-right' : 'text-left'
           }`}>
             <div className="flex items-center gap-2 mb-1">
-              <span className="text-sm font-medium">
+              <span className="text-xs sm:text-sm font-medium">
                 {message.role === 'user' 
                   ? user?.user_metadata?.full_name || 'You'
                   : 'AetherBot'
@@ -69,7 +69,7 @@ export const ChatMessages = () => {
               </Badge>
             </div>
             
-            <div className={`p-4 rounded-2xl ${
+            <div className={`p-3 sm:p-4 rounded-2xl break-words ${
               message.role === 'user'
                 ? 'chat-bubble-user text-white'
                 : 'bg-muted'
@@ -84,7 +84,7 @@ export const ChatMessages = () => {
                         </code>
                       ),
                       pre: ({ children }) => (
-                        <pre className="bg-background/50 p-3 rounded-lg overflow-x-auto">
+                        <pre className="bg-background/50 p-3 rounded-lg overflow-x-auto text-sm">
                           {children}
                         </pre>
                       )
@@ -94,7 +94,7 @@ export const ChatMessages = () => {
                   </ReactMarkdown>
                 </div>
               ) : (
-                <p className="whitespace-pre-wrap">{message.content}</p>
+                <p className="whitespace-pre-wrap text-sm sm:text-base">{message.content}</p>
               )}
             </div>
           </div>
@@ -106,21 +106,21 @@ export const ChatMessages = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="flex gap-4"
+          className="flex gap-2 sm:gap-4"
         >
-          <Avatar className="w-10 h-10">
+          <Avatar className="w-8 h-8 sm:w-10 sm:h-10">
             <AvatarFallback className="bg-muted">
-              <Bot className="w-5 h-5" />
+              <Bot className="w-4 h-4 sm:w-5 sm:h-5" />
             </AvatarFallback>
           </Avatar>
-          <div className="flex-1 max-w-3xl">
+          <div className="flex-1 max-w-[85%] sm:max-w-3xl">
             <div className="flex items-center gap-2 mb-1">
-              <span className="text-sm font-medium">AetherBot</span>
+              <span className="text-xs sm:text-sm font-medium">AetherBot</span>
               <Badge variant="outline" className="text-xs">
                 Thinking...
               </Badge>
             </div>
-            <div className="p-4 rounded-2xl bg-muted">
+            <div className="p-3 sm:p-4 rounded-2xl bg-muted">
               <div className="flex space-x-1">
                 <div className="w-2 h-2 bg-muted-foreground rounded-full typing-indicator"></div>
                 <div className="w-2 h-2 bg-muted-foreground rounded-full typing-indicator" style={{ animationDelay: '0.2s' }}></div>

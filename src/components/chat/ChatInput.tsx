@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { useChat } from '@/contexts/ChatContext';
 import { useToast } from '@/hooks/use-toast';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { Send, Mic, MicOff } from 'lucide-react';
 
 // Add types for Speech Recognition API
@@ -44,6 +45,7 @@ export const ChatInput = () => {
   const [isRecording, setIsRecording] = useState(false);
   const { sendMessage, isLoading } = useChat();
   const { toast } = useToast();
+  const isMobile = useIsMobile();
   const recognitionRef = useRef<SpeechRecognition | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -119,38 +121,39 @@ export const ChatInput = () => {
   };
 
   return (
-    <div className="border-t border-border bg-card p-4">
+    <div className="border-t border-border bg-card p-3 sm:p-4">
       <form onSubmit={handleSubmit} className="flex gap-2">
         <div className="flex-1 relative">
           <Textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyPress={handleKeyPress}
-            placeholder="Type your message... (Press Enter to send, Shift+Enter for new line)"
-            className="min-h-[50px] max-h-32 resize-none pr-12"
+            placeholder={isMobile ? "Type a message..." : "Type your message... (Press Enter to send, Shift+Enter for new line)"}
+            className="min-h-[44px] sm:min-h-[50px] max-h-32 resize-none pr-10 sm:pr-12 text-sm sm:text-base"
             disabled={isLoading}
           />
           <Button
             type="button"
             variant="ghost"
             size="icon"
-            className={`absolute right-2 top-2 ${
+            className={`absolute right-1 sm:right-2 top-1 sm:top-2 h-6 w-6 sm:h-8 sm:w-8 ${
               isRecording ? 'text-red-500 hover:text-red-600' : 'text-muted-foreground hover:text-foreground'
             }`}
             onClick={isRecording ? stopVoiceRecording : startVoiceRecording}
             disabled={isLoading}
           >
             {isRecording ? (
-              <MicOff className="h-4 w-4" />
+              <MicOff className="h-3 w-3 sm:h-4 sm:w-4" />
             ) : (
-              <Mic className="h-4 w-4" />
+              <Mic className="h-3 w-3 sm:h-4 sm:w-4" />
             )}
           </Button>
         </div>
         <Button
           type="submit"
           disabled={!input.trim() || isLoading}
-          className="px-6"
+          className="px-4 sm:px-6 h-11 sm:h-12"
+          size={isMobile ? "sm" : "default"}
         >
           <Send className="h-4 w-4" />
         </Button>
@@ -158,7 +161,7 @@ export const ChatInput = () => {
       
       {isRecording && (
         <div className="mt-2 text-center">
-          <span className="text-sm text-red-500 animate-pulse">
+          <span className="text-xs sm:text-sm text-red-500 animate-pulse">
             🎤 Recording... Click mic to stop
           </span>
         </div>
