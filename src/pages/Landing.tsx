@@ -1,11 +1,10 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { MessageCircle, Zap, Shield, Sparkles, Mic, Download, Template } from 'lucide-react';
+import { MessageCircle, Zap, Shield, Sparkles, Mic, Download, FileText } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { ThemeToggle } from '@/components/ThemeToggle';
@@ -36,7 +35,7 @@ const Landing = () => {
       description: "Speak naturally with built-in speech recognition"
     },
     {
-      icon: <Template className="h-8 w-8" />,
+      icon: <FileText className="h-8 w-8" />,
       title: "Prompt Templates",
       description: "Pre-built templates for common use cases"
     },

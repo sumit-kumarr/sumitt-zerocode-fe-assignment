@@ -75,23 +75,24 @@ export const ChatMessages = () => {
                 : 'bg-muted'
             }`}>
               {message.role === 'assistant' ? (
-                <ReactMarkdown 
-                  className="prose prose-sm max-w-none dark:prose-invert"
-                  components={{
-                    code: ({ children, className }) => (
-                      <code className={`${className} bg-background/50 px-1 py-0.5 rounded text-sm`}>
-                        {children}
-                      </code>
-                    ),
-                    pre: ({ children }) => (
-                      <pre className="bg-background/50 p-3 rounded-lg overflow-x-auto">
-                        {children}
-                      </pre>
-                    )
-                  }}
-                >
-                  {message.content}
-                </ReactMarkdown>
+                <div className="prose prose-sm max-w-none dark:prose-invert">
+                  <ReactMarkdown 
+                    components={{
+                      code: ({ children, className }) => (
+                        <code className={`${className || ''} bg-background/50 px-1 py-0.5 rounded text-sm`}>
+                          {children}
+                        </code>
+                      ),
+                      pre: ({ children }) => (
+                        <pre className="bg-background/50 p-3 rounded-lg overflow-x-auto">
+                          {children}
+                        </pre>
+                      )
+                    }}
+                  >
+                    {message.content}
+                  </ReactMarkdown>
+                </div>
               ) : (
                 <p className="whitespace-pre-wrap">{message.content}</p>
               )}
