@@ -10,8 +10,8 @@ This project is a front-end assignment for Zerocode, showcasing modern web devel
 
 ## Screenshots
 
-![Project Screenshot 1](./1.png)
-![Project Screenshot 2](./2.png)
+![Project Screenshot 1](/1.png)
+![Project Screenshot 2](/2.png)
 
 ## Getting Started
 
