@@ -2,7 +2,7 @@
 
 This project is a front-end assignment for Zerocode, showcasing modern web development practices.
 
-##Live Preview
+##Live Preview ...
 Link : https://aetherbot-teal.vercel.app/
 
 ## Features
