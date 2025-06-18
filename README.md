@@ -2,6 +2,9 @@
 
 This project is a front-end assignment for Zerocode, showcasing modern web development practices.
 
+##Live Preview
+Link : https://aetherbot-teal.vercel.app/
+
 ## Features
 
 - Responsive design
