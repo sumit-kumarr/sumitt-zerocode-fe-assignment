@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useChat } from '@/contexts/ChatContext';
@@ -48,7 +47,7 @@ export const ChatMessages = () => {
               {message.role === 'user' ? (
                 <User className="w-4 h-4 sm:w-5 sm:h-5" />
               ) : (
-                <Bot className="w-4 h-4 sm:w-5 sm:h-5" />
+                <img src="/bot-logo.svg" alt="AetherBot" className="w-4 h-4 sm:w-5 sm:h-5" />
               )}
             </AvatarFallback>
           </Avatar>

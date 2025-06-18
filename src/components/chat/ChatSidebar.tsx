@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
@@ -36,7 +35,7 @@ export const ChatSidebar: React.FC<ChatSidebarProps> = ({ isOpen, onToggle }) =>
       <div className="p-3 sm:p-4 border-b border-border">
         <div className="flex items-center justify-between mb-3 sm:mb-4">
           <div className="flex items-center space-x-2">
-            <Sparkles className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
+            <img src="/bot-logo.svg" alt="AetherBot" className="h-6 w-6 sm:h-7 sm:w-7" />
             <span className="text-base sm:text-lg font-bold">AetherBot</span>
           </div>
           {isMobile && (
